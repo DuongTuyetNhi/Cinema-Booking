@@ -13,13 +13,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Danh sách phim</title>
     <style>
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
         .btn {
             border: 1px solid #031d2c;
             border-radius: 10px;
             text-decoration: none;
             color: #031d2c;
             padding: 5px 10px 0 10px;
-            height: 27px;
+            height: 30px;
             margin-bottom: 10px;
         }
 
@@ -60,7 +68,8 @@
         }
 
         .form-label {
-            width: 10%;
+            width: 15%;
+            font-weight: bold;
         }
 
         .mb-3 {
@@ -101,7 +110,7 @@
                     </li>
                     <form:form action="/movie/search" method="post">
                         <input name="searchInput" type="text" placeholder="Tìm kiếm">
-                        <button type="submit">Search</button>
+                        <button type="submit">Tìm kiếm</button>
                     </form:form>
                 </ul>
             </div>
@@ -109,67 +118,98 @@
         <div style="width: 10%;"></div>
     </div>
 
-
-
-
-
     <div class="film" style=" display: flex;flex-wrap: wrap; margin: 30px 0 30px 0;">
         <div style="width: 10%;"></div>
         <div class="main-home" style="width: 80%; margin-left: 100px;">
             <form:form action="/admin/saveMovie" method="post" modelAttribute="movie" enctype="multipart/form-data">
-            <form:hidden path="movieId"/>
+                <form:hidden path="movieId"/>
+
                 <div class="mb-3" style="width: 100%">
                     <label for="movieName" class="form-label">Tên phim</label>
-                    <form:input path="movieName" id="movieName" class="form-control" />
+                    <form:input path="movieName" id="movieName" class="form-control"
+                                required="required" maxlength="100"
+                                oninvalid="this.setCustomValidity('Vui lòng không bỏ trống trường này')"
+                                oninput="this.setCustomValidity('')" />
                 </div>
+
                 <div class="mb-3">
-                                <label for="photo" class="form-label">Hình ảnh</label>
-                                <input type="file" name="image" class="form-control">
-                            </div>
+                    <label for="photo" class="form-label">Hình ảnh</label>
+                    <input type="file" name="image" class="form-control">
+                </div>
+
                 <div class="mb-3">
                     <label for="nation" class="form-label">Quốc gia</label>
-                    <form:input path="nation" id="nation" class="form-control" />
+                    <form:input path="nation" id="nation" class="form-control"
+                                required="required" maxlength="64"
+                                oninvalid="this.setCustomValidity('Vui lòng không bỏ trống trường này')"
+                                oninput="this.setCustomValidity('')" />
                 </div>
+
                 <div class="mb-3">
                     <label for="timeSlot" class="form-label">Thời lượng</label>
-                    <form:input path="timeSlot" id="timeSlot" class="form-control" />
+                    <form:input path="timeSlot" id="timeSlot" class="form-control"
+                                required="required" maxlength="8"
+                                pattern="^([0-3][0-9]|4[0]):[0-5][0-9]:[0-5][0-9]$"
+                                oninvalid="this.setCustomValidity(this.value === '' ? 'Vui lòng không bỏ trống trường này' : 'Vui lòng nhập thời lượng hợp lệ (hh:mm:ss), tối đa 04:00:00')"
+                                oninput="this.setCustomValidity('')" />
                 </div>
+
                 <div class="mb-3">
-                    <label class="form-label" style="">Thể loại (*)</label>
-                    <form:select path="category.categoryId">
-                        <form:option value="0" label="---Select---" />
+                    <label class="form-label" style="">Thể loại </label>
+                    <form:select path="category.categoryId" required="required"
+                                 oninvalid="this.setCustomValidity('Vui lòng không bỏ trống trường này')"
+                                 oninput="this.setCustomValidity('')">
                         <form:options items="${categoryList}" />
                     </form:select>
                 </div>
+
                 <div class="mb-3">
                     <label for="director" class="form-label">Đạo diễn</label>
-                    <form:input path="director" id="director" class="form-control" />
+                    <form:input path="director" id="director" class="form-control"
+                                required="required" maxlength="64"
+                                oninvalid="this.setCustomValidity('Vui lòng không bỏ trống trường này')"
+                                oninput="this.setCustomValidity('')" />
                 </div>
+
                 <div class="mb-3">
                     <label for="producer" class="form-label">Nhà sản xuất</label>
-                    <form:input path="producer" id="producer" class="form-control" />
+                    <form:input path="producer" id="producer" class="form-control"
+                                required="required" maxlength="64"
+                                oninvalid="this.setCustomValidity('Vui lòng không bỏ trống trường này')"
+                                oninput="this.setCustomValidity('')" />
                 </div>
+
                 <div class="mb-3">
                     <label for="actor" class="form-label">Diễn viên</label>
-                    <form:input path="actor" id="actor" class="form-control" />
+                    <form:input path="actor" id="actor" class="form-control"
+                                required="required" maxlength="128"
+                                oninvalid="this.setCustomValidity('Vui lòng không bỏ trống trường này')"
+                                oninput="this.setCustomValidity('')" />
                 </div>
+
                 <div class="mb-3">
                     <label for="trailer" class="form-label">Trailer</label>
-                    <form:input path="trailer" id="trailer" class="form-control" />
+                    <form:input path="trailer" id="trailer" class="form-control" maxlength="255" />
                 </div>
+
                 <div class="mb-3">
                     <label for="describeMovie" class="form-label">Mô tả</label>
-                    <form:textarea path="describeMovie" id="describeMovie" class="form-control" style="height: 50px;" />
+                    <form:textarea path="describeMovie" id="describeMovie" class="form-control"
+                                   maxlength="1000" style="height: 50px;" />
                 </div>
-                <button type="submit" class="btn btn-primary">LƯU</button>
+
+
+                <div class="button-group" style="width: 95%; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()">HUỶ</button>
+                    <button type="submit" class="btn btn-primary">LƯU</button>
+                </div>
+
+
+
             </form:form>
         </div>
         <div style="width: 10%;"></div>
     </div>
-
-
-
-
 
 
     <div class="footer" style=" background-color: #031d2c; color: white;">

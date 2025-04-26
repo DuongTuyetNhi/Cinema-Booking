@@ -38,9 +38,10 @@
                           </a>
                       </li>
                       <form:form action="/movie/search" method="post">
-                          <input name="searchInput" type="text" placeholder="Tìm kiếm">
-                          <button type="submit">Search</button>
+                          <input name="searchInput" type="text" placeholder="Tìm kiếm" maxlength="100">
+                          <button type="submit">Tìm kiếm</button>
                       </form:form>
+
                   </ul>
               </div>
           </div>

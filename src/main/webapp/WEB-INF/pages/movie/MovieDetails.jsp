@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -49,7 +50,15 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
     </style>
+
+    <script>
+        function confirmDelete(movieName) {
+            return confirm("Bạn có chắc chắn muốn xóa phim '" + movieName + "'?");
+        }
+    </script>
+
 
 </head>
 
@@ -73,25 +82,19 @@
                 <p>Mô tả: ${movie.describeMovie}</p>
 
                 <div class="button" style="display: flex; flex-wrap: nowrap; justify-content: space-evenly; height: 25px;">
-                    <sec:authorize access="isAuthenticated()">
-                        <a href="/movie/detail?id=${movie.movieId}" class="btn" style="padding-bottom: 25px;">Chi tiết</a>
-                        <sec:authorize access="hasRole('ROLE_ADMIN')">
-                            <a href="/admin/editMovie?id=${movie.movieId}" class="btn" style="padding-bottom: 25px;">Sửa</a>
-                            <a href="/admin/deleteMovie?id=${movie.movieId}" class="btn" style="padding-bottom: 25px;">Xóa</a>
-                        </sec:authorize>
-                    </sec:authorize>
+
+                          <sec:authorize access="hasRole('ROLE_ADMIN')">
+                               <a href="/admin/editMovie?id=${movie.movieId}" class="btn" style="padding-bottom: 25px;">Sửa</a>
+
+                              <a href="/admin/deleteMovie?id=${movie.movieId}" class="btn" onclick="return confirmDelete('${movie.movieName}')" style="padding-bottom: 25px;">
+                                 Xóa
+                              </a>
+                          </sec:authorize>
                 </div>
-
-
             </div>
         </div>
         <div style="width: 10%;"></div>
     </div>
-
-
-
-
-
 
     <jsp:include page="../include/footer.jsp" />
 </body>

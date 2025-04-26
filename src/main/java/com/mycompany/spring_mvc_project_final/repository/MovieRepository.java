@@ -14,10 +14,10 @@ import java.util.List;
 @Transactional
 public interface MovieRepository extends CrudRepository<Movie, Long> {
     Movie findByMovieId(Long movieId);
-    List<Movie> findByMovieName(String movieName);
-    List<Movie> findByDirector(String director);
-    List<Movie> findByProducer(String producer);
-    List<Movie> findByActor(String actor);
+    List<Movie> findByMovieNameLike(String movieName);
+    List<Movie> findByDirectorLike(String director);
+    List<Movie> findByProducerLike(String producer);
+    List<Movie> findByActorLike(String actor);
     List<Movie> findByMovieNameOrDirectorOrProducerOrActor(String movieName, String director, String producer, String actor);
     List<Movie> findAll();
     @Query(value = "SELECT DISTINCT m.movieId, m.actor, m.describeMovie, m.movieName, m.nation, m.photo, m.producer, m.timeSlot, m.trailer, m.cateId, m.director FROM movie m\n" +
@@ -26,4 +26,12 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
             "join roomshowtime r1 on s1.showTimeId=r1.showTimeId\n" +
             "where s1.showDate = ?1",nativeQuery = true)
     List<Movie> findMovie(String showDate);
+
+    @Query("SELECT m FROM Movie m WHERE " +
+            "LOWER(m.movieName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(m.director) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(m.producer) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(m.actor) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Movie> searchByKeyword(@Param("keyword") String keyword);
+
 }

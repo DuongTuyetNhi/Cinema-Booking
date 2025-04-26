@@ -50,59 +50,56 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
     </style>
 
 </head>
 
-<body style="background-color: #f2f5fb">
+<body style="background-color: #f2f5fb; margin: 0; min-height: 100vh; display: flex; flex-direction: column;">
+
     <jsp:include page="../include/header.jsp" />
     <jsp:include page="../include/header2.jsp" />
 
-    <div class="film" style=" display: flex;flex-wrap: wrap;">
-        <div style="width: 10%;"></div>
-        <div class="main-home" style="width: 80%; margin-left: 100px;">
-            <div style="margin: 0 auto;">
-                <div style="display: flex; flex-wrap: wrap;">
-                    <c:forEach var="movie" items="${movieList}">
-                        <div class="movie"
-                            style="display: flex;flex-direction: column; border: 1px solid gray; background-color: black; align-items: center;">
-                            <img src="<c:url value='/movie/getPhoto/'/>${movie.movieId}"
-                                style=" width:220px; height: 250px; border-radius: 10px 10px 0px 0px;">
-                            <div class="movie-inf" style=" width:220px;">
-                                <center>
-                                    <h5 class="card-title long-text" style="color: white; font-weight: bold;">
-                                        ${movie.movieName}
-                                    </h5>
-                                </center>
-                                <div class="button"
-                                    style="display: flex;flex-wrap: nowrap;justify-content: space-evenly; height: 25px;">
-
-                                    <sec:authorize access="isAuthenticated()">
+    <div style="flex: 1;">
+        <div class="film" style="display: flex; flex-wrap: wrap;">
+            <div style="width: 10%;"></div>
+            <div class="main-home" style="width: 80%; margin-left: 100px;">
+                <div style="margin: 0 auto;">
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <c:forEach var="movie" items="${movieList}">
+                            <div class="movie"
+                                style="display: flex;flex-direction: column; border: 1px solid gray; background-color: black; align-items: center; margin: 10px;">
+                                <img src="<c:url value='/movie/getPhoto/'/>${movie.movieId}"
+                                    style=" width:220px; height: 250px; border-radius: 10px 10px 0px 0px;">
+                                <div class="movie-inf" style=" width:220px;">
+                                    <center>
+                                        <h5 class="card-title long-text" style="color: white; font-weight: bold;">
+                                            ${movie.movieName}
+                                        </h5>
+                                    </center>
+                                    <div class="button"
+                                        style="display: flex;flex-wrap: nowrap;justify-content: space-evenly; height: 25px;">
                                         <a href="/movie/detail?id=${movie.movieId}" class="btn">Chi tiết</a>
-                                         <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                              <a href="/admin/editMovie?id=${movie.movieId}" class="btn">Edit</a>
-                                              <a href="/admin/deleteMovie?id=${movie.movieId}" class="btn">Delete</a>
-                                         </sec:authorize>
-                                    </sec:authorize>
+                                        <a href="/booking?movieId=${movie.movieId}" class="btn">Đặt vé</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </c:forEach>
-                    <c:if test="${empty movieList}">
-                        <div class="alert alert-warning mt-4" role="alert">Không có dữ liệu (No data)</div>
-                    </c:if>
+                        </c:forEach>
+                        <c:if test="${empty movieList}">
+                            <div class="alert alert-warning mt-4" role="alert" style="min-height: 300px;">
+                                Không có phim nào phù hợp với tiêu chí bạn đưa ra. Thử lại tiêu chí khác
+                            </div>
+                        </c:if>
+                    </div>
                 </div>
             </div>
+            <div style="width: 10%;"></div>
         </div>
-        <div style="width: 10%;"></div>
     </div>
-
-
 
     <jsp:include page="../include/footer.jsp" />
 
-
-
 </body>
+
 
 </html>

@@ -27,7 +27,6 @@ public class HomePageController {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String username = "anonymousUser"; // Mặc định là "anonymousUser" nếu không có người dùng đăng nhập
 
-            // Kiểm tra xem principal có phải là một UserDetails không để lấy username
             if (principal instanceof UserDetails) {
                 username = ((UserDetails) principal).getUsername();
                 User user = userRepository.findByEmail(username);

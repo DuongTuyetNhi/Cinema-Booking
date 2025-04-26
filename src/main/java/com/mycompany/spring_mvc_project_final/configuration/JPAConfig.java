@@ -32,7 +32,7 @@ public class JPAConfig {
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/CBDB?characterEncoding=UTF-8&createDatabaseIfNotExist=true");
         dataSource.setUsername("root");
-        dataSource.setPassword("12345678");
+        dataSource.setPassword("123456789");
 
         return dataSource;
     }

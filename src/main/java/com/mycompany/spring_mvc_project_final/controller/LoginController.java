@@ -53,7 +53,7 @@ public class LoginController {
     public String loginPage(Model model, @RequestParam(value = "error", required = false) boolean error) {
 
         if (error) {
-            model.addAttribute("message", "Login Fail!!!");
+            model.addAttribute("message", "Email hoặc mật khẩu không đúng.Vui lòng thử lại!");
         }
         return "login";
     }
@@ -175,18 +175,13 @@ public class LoginController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, HttpServletRequest request) {
-        // Thay thế bằng cách sau:
-        // Thêm các tham số cần thiết vào phương thức registerUser, Spring MVC sẽ tự động cung cấp giá trị cho chúng
 
-        // Kiểm tra xem email đã được sử dụng chưa
         if (userRepository.existsByEmail(user.getEmail())) {
             return "redirect:/register?error"; // Đã tồn tại email trong hệ thống
         }
 
-        // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        // Thiết lập trạng thái UNACTIVE cho tài khoản
         AccountEntity accountEntity = AccountEntity.fromUser(user);
         accountEntity.setStatus(UserStatus.UNACTIVE);
         Role role = new Role();
@@ -202,43 +197,58 @@ public class LoginController {
         LocalDateTime expirationTime = LocalDateTime.now().plusHours(12); // Thời gian hết hạn là 12 giờ sau
         accountEntity.setTokenExpiration(expirationTime);
 
-        // Lưu thông tin người dùng vào cơ sở dữ liệu
         userRepository.save(user);
-        // Lưu thông tin tài khoản vào cơ sở dữ liệu
         accountRepository.save(accountEntity);
 
-        // Gửi email chứa token đến người dùng
         String appUrl = request.getScheme() + "://" + request.getServerName();
         emailService.sendTokenEmail(user.getEmail(), token, appUrl);
 
         return "redirect:/token?email=" + user.getEmail(); // Chuyển hướng đến trang nhập token
     }
 
+//    @GetMapping("/token")
+//    public String tokenPage(@RequestParam("email") String email, Model model) {
+//        model.addAttribute("email", email);
+//        return "tokenPage";
+//    }
+//
+//    @PostMapping("/verify-token")
+//    public String verifyToken(@RequestParam("email") String email, @RequestParam("token") String token) {
+//
+//        AccountEntity accountEntity = accountRepository.findByEmailAndToken(email, token);
+//        if (accountEntity != null && isValidToken(accountEntity)) {
+//            accountEntity.setStatus(UserStatus.ACTIVE);
+//            accountRepository.save(accountEntity);
+//            return "redirect:/login";
+//        } else {
+//            return "redirect:/token?email=" + email + "&error=invalid_token";
+//        }
+//    }
+
     @GetMapping("/token")
     public String tokenPage(@RequestParam("email") String email, Model model) {
-        // Sử dụng email để hiển thị hoặc thực hiện các thao tác khác
         model.addAttribute("email", email);
-        return "tokenPage"; // Trả về tên của trang JSP
+        return "tokenPage";
     }
 
     @PostMapping("/verify-token")
-    public String verifyToken(@RequestParam("email") String email, @RequestParam("token") String token) {
-        // Kiểm tra xem token có hợp lệ hay không
+    public String verifyToken(@RequestParam("email") String email,
+                              @RequestParam("token") String token,
+                              RedirectAttributes redirectAttributes) {
+
         AccountEntity accountEntity = accountRepository.findByEmailAndToken(email, token);
         if (accountEntity != null && isValidToken(accountEntity)) {
-            // Chuyển trạng thái của tài khoản sang active
             accountEntity.setStatus(UserStatus.ACTIVE);
             accountRepository.save(accountEntity);
-            // Redirect đến trang thành công hoặc trang chính
             return "redirect:/login";
         } else {
-            // Token không hợp lệ, redirect về trang nhập token với thông báo lỗi
-            return "redirect:/token?email=" + email + "&error=invalid_token";
+            redirectAttributes.addFlashAttribute("error", "invalid_token");
+            redirectAttributes.addAttribute("email", email);
+            return "redirect:/token";
         }
     }
 
     private boolean isValidToken(AccountEntity accountEntity) {
-        // Kiểm tra xem token có hợp lệ hay không, ví dụ: kiểm tra thời gian hết hạn
         LocalDateTime expirationTime = accountEntity.getTokenExpiration();
         return expirationTime.isAfter(LocalDateTime.now());
     }
@@ -246,7 +256,6 @@ public class LoginController {
 
 
     private String generateRandomToken() {
-        // Tạo một số ngẫu nhiên từ 100000 đến 999999
         int randomNum = ThreadLocalRandom.current().nextInt(100000, 999999 + 1);
         return String.valueOf(randomNum);
     }

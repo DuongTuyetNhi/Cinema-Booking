@@ -40,7 +40,7 @@ public class ShowTimeController {
     @Autowired
     MovieShowtimeRepository movieShowtimeRepository;
 
-    @RequestMapping(value = "/showtime", method = GET)
+    @RequestMapping(value = "/showtime")
     public String handleBooking( Model model, HttpSession session) {
 
 

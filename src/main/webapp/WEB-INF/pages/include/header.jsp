@@ -30,17 +30,17 @@
                         <div class="header__top__links">
                             <sec:authorize access="isAuthenticated()">
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                    <a href="/admin/addMovie">Add Movie</a>
-                                    <a href="<c:url value="/admin/home" />">Admin Home</a>
-                                    <a href="<c:url value="/admin/add" />">Add Account</a>
+                                    <a href="/admin/addMovie">Thêm phim</a>
+                                    <a href="<c:url value="/admin/home" />">Trang chủ Admin</a>
+                                    <a href="<c:url value="/admin/add" />">Thêm tài khoản</a>
                                 </sec:authorize>
-                                <a href="<c:url value="/logout" />">Logout</a>
+                                <a href="<c:url value="/logout" />">Đăng xuất</a>
                             </sec:authorize>
 
                             <!-- If No login then will show Login Page -->
                             <sec:authorize access="!isAuthenticated()">
-                                <a href="<c:url value="/login" />">Login</a>
-                                <a href="<c:url value="/register" />">Register</a>
+                                <a href="<c:url value="/login" />">Đăng nhập</a>
+                                <a href="<c:url value="/register" />">Đăng ký</a>
                             </sec:authorize>
                         </div>
                     </div>

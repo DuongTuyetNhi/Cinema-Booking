@@ -139,16 +139,19 @@
                        <p class="logic">Đăng nhập</p>
                        <form action="<c:url value="j_spring_security_check"/>" method="post">
                            <!-- /login?error=true -->
-                           <div class="textbox">
-                               <c:if test="${message != null && message != ''}">
-                                   <p style="color: red">${message}</p>
-                               </c:if>
-                           </div>
-                           <label for="email" class="text">Email</label><br>
-                           <input type="email" id="email" name="username" placeholder="Nhập email..."><br>
+                                <div class="textbox">
+                                    <c:if test="${message != null && message != ''}">
+                                        <p style="color: red">${message}</p>
+                                    </c:if>
+                                </div>
+                           <input type="email" id="email" name="username" placeholder="Nhập email..." required
+                                  oninvalid="this.setCustomValidity('Vui lòng không để trống trường này')"
+                                  oninput="this.setCustomValidity('')"><br>
 
-                           <label for="password" class="text">Mật khẩu</label><br>
-                           <input type="password" id="password" name="password" placeholder="Nhập password..."><br>
+                           <input type="password" id="password" name="password" placeholder="Nhập password..." required
+                                  oninvalid="this.setCustomValidity('Vui lòng không để trống trường này')"
+                                  oninput="this.setCustomValidity('')"><br>
+
 
                            <input type="submit" value="Đăng nhập" class="button">
                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
