@@ -11,9 +11,28 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home Page</title>
+    <title>DoubleT</title>
     <jsp:include page="include/css-page.jsp" />
     <style>
+        h1 {
+          text-align: center;
+          font-size: 50px;
+          font-weight: bold;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          animation: colorChange 2s infinite;
+          text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+          margin-top: 50px;
+        }
+
+        /* Animation đổi màu chữ */
+        @keyframes colorChange {
+          0%   { color: #ff4b2b; }
+          25%  { color: #ff416c; }
+          50%  { color: #00c3ff; }
+          75%  { color: #7b2ff7; }
+          100% { color: #ff4b2b; }
+        }
+
 
         .btn {
             border: 1px solid white;
@@ -61,7 +80,7 @@
         <div style="width: 10%;"></div>
 
         <div class="main-home" style="width: 80%; margin-left: 100px;">
-
+        <h1>Double T Cinema</h1>
         <br>
             <div style="margin: 0 auto;">
                 <div style="display: flex; flex-wrap: wrap;">

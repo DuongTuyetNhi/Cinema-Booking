@@ -53,7 +53,7 @@ public class LoginController {
     public String loginPage(Model model, @RequestParam(value = "error", required = false) boolean error) {
 
         if (error) {
-            model.addAttribute("message", "Email hoặc mật khẩu không đúng.Vui lòng thử lại!");
+            model.addAttribute("message", "Email hoặc mật khẩu không đúng. Vui lòng thử lại!");
         }
         return "login";
     }

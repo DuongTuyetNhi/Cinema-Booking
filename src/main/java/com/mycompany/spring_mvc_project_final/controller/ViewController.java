@@ -6,6 +6,9 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,12 +42,48 @@ public class ViewController {
         InputStream inputStream = new ByteArrayInputStream(ph);
         IOUtils.copy(inputStream, response.getOutputStream());
     }
+//    @RequestMapping(method = GET)
+//    public String showMovies(Model model) {
+//        List<Movie> movieList = (List<Movie>) movieRepository.findAll();
+//        model.addAttribute("movieList", movieList);
+//        return "movie/MovieList";
+//    }
+@RequestMapping(value = "/list", method = RequestMethod.GET)
+public String listMovies(@RequestParam(defaultValue = "0") int page,
+                         @RequestParam(defaultValue = "5") int size,
+                         Model model) {
+
+    Pageable pageable = PageRequest.of(page, size);
+    Page<Movie> moviePage = movieRepository.findAll(pageable);
+
+    model.addAttribute("movieList", moviePage.getContent());
+    model.addAttribute("totalPages", moviePage.getTotalPages());
+    model.addAttribute("currentPage", page);
+    model.addAttribute("isSearch", false);
+    model.addAttribute("currentPage", page);
+
+    return "movie/MovieList";
+}
     @RequestMapping(method = GET)
-    public String showMovies(Model model) {
-        List<Movie> movieList = (List<Movie>) movieRepository.findAll();
-        model.addAttribute("movieList", movieList);
-        return "movie/MovieList";
+    public String defaultRedirect() {
+        return "redirect:/movie/list";
     }
+
+
+    //    @RequestMapping(method = GET)
+//    public String showMovies(Model model,
+//                             @RequestParam(defaultValue = "0") int page,
+//                             @RequestParam(defaultValue = "5") int size) {
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<Movie> moviePage = movieRepository.findAll(pageable);
+//
+//        model.addAttribute("moviePage", moviePage);
+//        model.addAttribute("currentPage", page);
+//        model.addAttribute("totalPages", moviePage.getTotalPages());
+//        model.addAttribute("isSearch", false);
+//
+//        return "movie/MovieList";
+//    }
     @RequestMapping(value = "/detail",method = GET)
     public String detailMovie(@RequestParam("id") Long movieId, Model model){
         Movie movie = movieRepository.findById(movieId).orElse(null);
@@ -66,6 +105,7 @@ public class ViewController {
 //            }
         }
         model.addAttribute("movieList", movieList);
+        model.addAttribute("isSearch", true);
         return "movie/MovieList";
     }
 

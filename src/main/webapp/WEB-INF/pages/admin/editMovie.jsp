@@ -134,7 +134,7 @@
 
             <div class="mb-3">
                 <label for="photo" class="form-label">Hình ảnh</label>
-                <input type="file" name="image" class="form-control">
+                <input id="photo" type="file" name="image" class="form-control">
             </div>
 
             <div class="mb-3">

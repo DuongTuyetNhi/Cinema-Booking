@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-lg-5 col-md-7">
                     <div class="header__top__left">
-                        <p>
+                        <p class="hello-user">
                             <sec:authorize access="isAuthenticated()">
                                 Xin chào
                                 <sec:authentication property="principal.username"/>

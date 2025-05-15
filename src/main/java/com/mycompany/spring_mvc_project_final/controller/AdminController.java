@@ -56,7 +56,10 @@ public class AdminController {
             movieRepository.save(movie); // Lưu thông tin phim vào cơ sở dữ liệu
 
             // Chuyển hướng người dùng đến trang hiển thị danh sách phim
-            return new ModelAndView("redirect:/movie");
+            // return new ModelAndView("redirect:/movie?success=true");
+            return new ModelAndView("redirect:/movie/list?success=true");
+
+            //---
 
         } catch (Exception e) {
             // Trả về trang lỗi nếu có lỗi xảy ra
@@ -86,7 +89,6 @@ public class AdminController {
 
     @RequestMapping(value = "/updateMovie", method = RequestMethod.POST)
     public String updateMovie(@ModelAttribute Movie movie, @RequestPart("image") MultipartFile image) throws IOException {
-//        System.out.println("3333");
         movie.setPhoto(image.getBytes());
         movieRepository.save(movie);
         return "redirect:/";

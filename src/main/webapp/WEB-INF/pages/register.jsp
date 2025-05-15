@@ -5,21 +5,20 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>User Registration</title>
+    <title>Đăng ký</title>
     <style>
         body {
             background-color: #f2f5fb;
         }
 
         .border-form {
-            margin: 80px auto;
+            margin: 50px auto;
             background-color: #03141c;
             color: #fff;
             font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            width: 600px;
+            width: 520px;
             border-radius: 10px;
-            padding-top: 20px;
-            padding-bottom: 30px;
+            padding: 20px;
         }
 
         .border-form .img-tab {
@@ -28,43 +27,31 @@
 
         .border-form p {
             font-weight: 500;
-            font-size: 35px;
-            margin: 0;
-            margin-top: 10px;
+            font-size: 28px;
+            margin: 5px 0 15px 0;
             text-align: center;
         }
 
         label {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             margin-left: 5px;
         }
 
         form {
-            margin: 20px 60px;
-            width: 700px;
+            margin: 0;
+            width: 100%;
         }
 
-        .Hoten,
-        .ngaysdt,
-        .matkhau {
+        .Hoten, .ngaysdt, .matkhau {
             display: flex;
-            width: 450px;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
-        .mat,
-        .khau,
-        .ngay,
-        .sdt,
-        .Ho,
-        .Ten {
-            width: 50%;
-        }
-
-        .mat,
-        .ngay,
-        .Ten {
-            margin-right: 40px;
+        .mat, .khau, .ngay, .sdt, .Ho, .Ten {
+            flex: 1;
         }
 
         input[type="text"],
@@ -72,24 +59,16 @@
         input[type="date"],
         input[type="password"] {
             color: #000;
-            margin: 5px 0 5px 0;
-            padding: 10px 15px;
-            border-radius: 7px;
-            font-size: 15px;
+            margin: 3px 0;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 14px;
             border: 1.5px solid rgb(199, 196, 196);
-            width: 450px;
+            width: 100%;
             font-family: system-ui;
             background-color: #fff;
             font-weight: 600;
-        }
-
-        #firstName,
-        #lastName,
-        #phone,
-        #birthDay,
-        #password,
-        #confirmPassword {
-            width: 100%;
+            box-sizing: border-box;
         }
 
         input[type="text"]:hover,
@@ -103,13 +82,13 @@
             padding: 10px;
             font-family: system-ui;
             font-weight: 600;
-            font-size: 18px;
-            width: 480px;
-            border-radius: 7px;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 6px;
             border: none;
             background-color: #f2f5fb;
             color: #031d2c;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         input[type="submit"]:hover {
@@ -120,12 +99,13 @@
 
         .error {
             color: red;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
             display: block;
-            min-height: 16px;
+            min-height: 14px;
         }
     </style>
+
 
     <script>
         function validatePassword() {

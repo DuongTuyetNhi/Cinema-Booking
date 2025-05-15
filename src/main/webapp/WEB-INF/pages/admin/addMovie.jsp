@@ -134,7 +134,7 @@
 
                 <div class="mb-3">
                     <label for="photo" class="form-label">Hình ảnh</label>
-                    <input type="file" name="image" class="form-control">
+                    <input id="photo" type="file" name="image" class="form-control">
                 </div>
 
                 <div class="mb-3">
@@ -201,10 +201,8 @@
 
                 <div class="button-group" style="width: 95%; justify-content: flex-end;">
                     <button type="button" class="btn btn-secondary" onclick="history.back()">HUỶ</button>
-                    <button type="submit" class="btn btn-primary">LƯU</button>
+                    <button type="submit" class="btn btn-primary" id="successMsg" data-message="${successMessage}">LƯU</button>
                 </div>
-
-
 
             </form:form>
         </div>
@@ -241,6 +239,7 @@
             <p style="color: white; ">Copyright &copy; 2024 DoubleT. All Rights Reserved.</p>
         </div>
     </div>
+
 </body>
 
 </html>

@@ -86,12 +86,12 @@
             <input type="hidden" name="email" value="${param.email}">
             <label for="token">Mã xác thực:</label>
             <input type="text" id="token" name="token" required minlength="6" maxlength="6"
-                oninvalid="this.setCustomValidity('Vui lòng nhập mã xác thực gồm 6 ký tự')"
+                oninvalid="this.setCustomValidity(this.value === '' ? 'Vui lòng không bỏ trống trường này' : 'Vui lòng nhập mã xác thực gồm 6 ký tự')"
                 ninput="this.setCustomValidity('')">
             <button type="submit">Gửi</button>
         </form>
         <c:if test="${not empty error}">
-            <p style="color: red;">Mã xác thực không hợp lệ hoặc đã hết hạn.</p>
+            <p class="message-token-error" style="color: red;">Mã xác thực không hợp lệ hoặc đã hết hạn.</p>
         </c:if>
         <p class="note">Nhập mã xác thực để kích hoạt tài khoản của bạn.Lưu ý, mã chỉ có hiệu lực trong vòng 12 giờ.</p>
     </div>
